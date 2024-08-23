@@ -1,3 +1,5 @@
+from functions import FUNCTION_REGISTRY
+
 tools = [
     {
       'type': 'function',
@@ -13,6 +15,18 @@ tools = [
             },
           },
           'required': ['city'],
+        },
+      },
+    },
+    {
+      'type': 'function',
+      'function': {
+        'name': 'get_time',
+        'description': 'Get the current time',
+        'parameters': {
+          'type': 'object',
+          'properties': {},
+          'required': [],
         },
       },
     }
@@ -31,3 +45,17 @@ def extract_function_details(response):
         function_details.append({'name': name, 'arguments': arguments})
     
     return function_details
+
+def process_function_calls(function_details):
+    results = []
+    for detail in function_details:
+        function_name = detail['name']
+        arguments = detail['arguments']
+        
+        func = FUNCTION_REGISTRY.get(function_name)
+        
+        if func:
+            result = func(**arguments)
+            results.append(result)
+    
+    return results

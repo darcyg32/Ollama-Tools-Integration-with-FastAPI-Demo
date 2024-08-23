@@ -1,7 +1,8 @@
 import requests
 import json
 import sys
-from tools import tools, extract_function_details
+from tools import tools, extract_function_details, process_function_calls
+from functions import FUNCTION_REGISTRY
 
 # Function to send a request to the FastAPI server
 def send_request(prompt):
@@ -35,11 +36,11 @@ if __name__ == "__main__":
     # Call the function to send the request
     response = send_request(prompt)
     
-    # Print the full JSON response
-    print("Full Response:")
-    print(json.dumps(response, indent=2))  # Pretty-print the full JSON response
-
     # Extract and print function details
     function_details = extract_function_details(response)
     print("\nExtracted Function Details:")
     print(json.dumps(function_details, indent=2))  # Pretty-print the extracted function details
+
+    function_results = process_function_calls(function_details)
+
+    print(function_results)
