@@ -1,5 +1,3 @@
-from functions import FUNCTION_REGISTRY
-
 tools = [
     {
       'type': 'function',
@@ -31,39 +29,3 @@ tools = [
       },
     }
 ]
-
-# Helper function to extract 'name' and 'arguments' from tool_calls
-def extract_function_details(response):
-    # Safely accessing 'tool_calls' and extracting 'name' and 'arguments'
-    tool_calls = response.get('message', {}).get('tool_calls', [])
-    
-    function_details = []
-    for tool_call in tool_calls:
-        function_info = tool_call.get('function', {})
-        name = function_info.get('name', 'No name found')
-        arguments = function_info.get('arguments', {})
-        function_details.append({'name': name, 'arguments': arguments})
-    
-    return function_details
-
-def process_function_calls(function_details):
-    results = []
-    for detail in function_details:
-        function_name = detail['name']
-        arguments = detail['arguments']
-        
-        func = FUNCTION_REGISTRY.get(function_name)
-        
-        if func:
-            result = func(**arguments)
-            results.append(result)
-    
-    return results
-
-def reformat_results(results):
-    # Reformat the results into the desired JSON structure
-    formatted_results = [
-        {"role": "user", "content": result}
-        for result in results
-    ]
-    return formatted_results
