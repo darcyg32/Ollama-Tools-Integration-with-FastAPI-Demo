@@ -10,18 +10,24 @@ app = FastAPI()
 class GenerateRequest(BaseModel):
     model: str              # Name of the model to be used
     prompt: str             # Prompt to be sent to the model
-    stream: bool = False   # Flag to enable streaming of responses
-    #tools: dict             # Dict of provided tools
+    stream: bool = False    # Flag to enable streaming of responses
+    tools: list             # List of provided tools
 
 # Define endpoint to handle requests and return the full raw JSON response
-@app.post("/generate")
+@app.post("/chat")
 async def generate_full(request: GenerateRequest):
-    url = "http://localhost:11434/api/generate"     # URL of the local model API
+    url = "http://localhost:11434/api/chat"     # URL of the local model API
     headers = {"Content-Type": "application/json"}  # Specify the content type as JSON
     data = {
         "model": request.model,     # Model name from the request
-        "prompt": request.prompt,   # Prompt from the request
-        "stream": request.stream   # Streaming flag from the request
+        "messages": [
+            {
+                "role": "user",
+                "content": request.prompt   # Prompt from the request
+            }
+        ],
+        "stream": request.stream,   # Streaming flag from the request
+        "tools": request.tools, # Tools
     }
 
     # Send a POST request to the model API
