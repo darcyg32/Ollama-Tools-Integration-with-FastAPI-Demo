@@ -1,9 +1,10 @@
+# Tool signatures formatted for ollama
 tools = [
     {
       'type': 'function',
       'function': {
         'name': 'get_current_weather',
-        'description': 'Get the current weather for a city',
+        'description': 'Fetch the current weather for a specified city.',
         'parameters': {
           'type': 'object',
           'properties': {
@@ -19,8 +20,8 @@ tools = [
     {
       'type': 'function',
       'function': {
-        'name': 'get_time',
-        'description': 'Get the current time',
+        'name': 'get_current_time',
+        'description': 'Fetch the current time for the user.',
         'parameters': {
           'type': 'object',
           'properties': {},
