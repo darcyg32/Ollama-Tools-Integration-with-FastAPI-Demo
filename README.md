@@ -33,22 +33,14 @@ This project demonstrates how to integrate tools with Ollama in a FastAPI applic
 ## Usage
 ### Clone the Repository:
 ```sh
-git clone https://github.com/darcyg32/ollama-tools-project
-cd ollama-tools-project
+git clone [https://github.com/darcyg32/ollama-tools-project](https://github.com/darcyg32/Ollama-Tools-Integration-with-FastAPI-Demo)
+cd Ollama-Tools-Integration-with-FastAPI-Demo
 ```
 ### Set Up a Virtual Environment:
-```sh
-python -m venv venv
-source venv/bin/activate
-```
+
 ### Install Dependencies:
-```sh
-pip install -r requirements.txt
-```
+
 ### Running the FastAPI Server
-1. Start the FastAPI server:
-    `uvicorn app:app --reload`
-    The server will be available at `http://localhost:8000`.
 
 ### Sending Requests
 **Using the Command-Line Script**:
