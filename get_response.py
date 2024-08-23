@@ -1,8 +1,7 @@
 import requests
 import json
 import sys
-from tools import tools
-from utils import post_request_and_process_response
+from tools import tools, extract_function_details
 
 # Function to send a request to the FastAPI server
 def send_request(prompt):
@@ -15,21 +14,32 @@ def send_request(prompt):
         "tools": tools
     }
 
-    json_responses = post_request_and_process_response(url, headers, data, stream=True)
+    response = requests.post(url, headers=headers, json=data)  # Use 'json=data' instead of 'data=json.dumps(data)'
     
-    # Print the entire response
-    for response in json_responses:
-        print(response)
+    # Check if the request was successful
+    if response.status_code == 200:
+        return response.json()  # Return the response JSON if successful
+    else:
+        return {"error": f"Request failed with status code {response.status_code}"}
 
 # Entry point of the script when run from the command line
 if __name__ == "__main__":
     # Check if the required args are provided
-    if len(sys.argv) < 1:
-        print("Usage: python send_request.py <prompt>")
+    if len(sys.argv) < 2:  # The prompt is expected to be the second argument
+        print("Usage: python get_response.py <prompt>")
         sys.exit(1)
 
-    # Extract coommand line args
+    # Extract command line args
     prompt = sys.argv[1]
 
     # Call the function to send the request
-    send_request(prompt)
+    response = send_request(prompt)
+    
+    # Print the full JSON response
+    print("Full Response:")
+    print(json.dumps(response, indent=2))  # Pretty-print the full JSON response
+
+    # Extract and print function details
+    function_details = extract_function_details(response)
+    print("\nExtracted Function Details:")
+    print(json.dumps(function_details, indent=2))  # Pretty-print the extracted function details

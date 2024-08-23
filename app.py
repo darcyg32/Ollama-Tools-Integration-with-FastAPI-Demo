@@ -1,22 +1,20 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
-import json
 import requests
-from utils import post_request_and_process_response
 
 # Initialize FastAPI application
 app = FastAPI()
 
 # Define a data model using Pydantic for the request body
-class GenerateRequest(BaseModel):
-    model: str = "llama3.1" # Name of the model to be used
-    prompt: str             # Prompt to be sent to the model
-    stream: bool = False    # Flag to enable streaming of responses
-    tools: list             # List of provided tools
+class ChatRequest(BaseModel):
+    model: str = "llama3.1"  # Name of the model to be used
+    prompt: str              # Prompt to be sent to the model
+    stream: bool = False     # Flag to enable streaming of responses
+    tools: list              # List of provided tools
 
-# Define endpoint to handle requests and return the full raw JSON response
+# Define an endpoint to handle requests and return the full raw JSON response
 @app.post("/chat")
-async def generate_full(request: GenerateRequest):
+async def chat(request: ChatRequest):
     url = "http://localhost:11434/api/chat"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -31,6 +29,7 @@ async def generate_full(request: GenerateRequest):
         "tools": request.tools,
     }
 
-    json_responses = post_request_and_process_response(url, headers, data, stream=True)
-
-    return json_responses
+    response = requests.post(url, headers=headers, json=data)  # Use 'json=data' instead of 'data=json.dumps(data)'
+    
+    # Return the full JSON response as a JSON object
+    return response.json()
