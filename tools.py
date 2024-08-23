@@ -59,3 +59,11 @@ def process_function_calls(function_details):
             results.append(result)
     
     return results
+
+def reformat_results(results):
+    # Reformat the results into the desired JSON structure
+    formatted_results = [
+        {"role": "user", "content": result}
+        for result in results
+    ]
+    return formatted_results

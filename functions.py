@@ -12,7 +12,7 @@ def get_current_weather(city:str) -> str:
         response.raise_for_status()
         data = response.json()
         temperature = data['current_condition'][0]['temp_C']
-        return f"The current temperature in {city} is: {temperature}°C"
+        return f"The current temperature in {city} is: {temperature} degrees Celsius"
     except requests.RequestException as e:
         return f"Error fetching weather data: {e}"
     except (KeyError, IndexError) as e:
@@ -20,7 +20,6 @@ def get_current_weather(city:str) -> str:
 
 def get_current_time() -> str:
     """Get the current time"""
-    current_time = time.strftime("%H:%M:%S")
     return f"The current time is {time.strftime('%H:%M:%S')}"
 
 FUNCTION_REGISTRY = {
