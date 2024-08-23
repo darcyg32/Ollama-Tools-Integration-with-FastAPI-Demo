@@ -26,7 +26,7 @@ async def chat(request: ChatRequest):
         JSON: The full response from the model server as a JSON object.
     """
     # URL of the model server to forward the request to
-    url = "http://localhost:11434/api/chat"
+    url = "http://ollama:11434/api/chat"
     headers = {"Content-Type": "application/json"}
     data = {
         "model": request.model,
@@ -44,4 +44,5 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Request failed: {e}")
     
     # Return the model server's JSON response directly to the client
+    
     return response.json()

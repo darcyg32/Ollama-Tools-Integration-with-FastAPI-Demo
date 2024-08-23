@@ -83,14 +83,14 @@ if __name__ == "__main__":
     ]
 
     # Append the user's initial message to the conversation
-    messages.append({'role': 'user', 'content': 'Hi, how are you? What time is it? Also, what is the weather in Madrid?'})
+    messages.append({'role': 'user', 'content': 'Hi, how are you? What time is it?'})
 
     # First API call: Send the initial conversation to the model and get its response
     response = send_request(messages)
 
     # Add the model's response to the conversation history
     messages.append(response['message'])
-    
+
     # Check if the model made any tool calls (requests to execute functions)
     if response['message'].get('tool_calls'):
         tool_calls = response['message']['tool_calls']

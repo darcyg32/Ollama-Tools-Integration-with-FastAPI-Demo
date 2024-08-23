@@ -2,3 +2,4 @@ fastapi
 requests
 uvicorn
 pydantic
+ollama

@@ -20,17 +20,17 @@ def get_current_weather(city:str) -> str:
         # Parse the JSON response to extract the temperature in Celsius
         data = response.json()
         temperature = data['current_condition'][0]['temp_C']
-        print(f"Weather in {city}: {temperature} degrees C")  # Debugging output
+        # print(f"Weather in {city}: {temperature} degrees C")  # Debugging output
         return f"{temperature} degrees C"  # Return the temperature as a string
     except requests.RequestException as e:
         # Return an error message if the request fails due to network issues or server errors
         error_message = f"Error fetching weather data: {e}"
-        print(error_message)  # Debugging output
+        # print(error_message)  # Debugging output
         return "Sorry, I'm unable to fetch the weather data right now due to service unavailability."
     except (KeyError, IndexError) as e:
         # Return an error message if the expected data format is not found in the API response
         error_message = f"Unexpected data format: {e}"
-        print(error_message)  # Debugging output
+        # print(error_message)  # Debugging output
         return "Sorry, I couldn't find the weather information for that location."
 
 def get_current_time() -> str:
